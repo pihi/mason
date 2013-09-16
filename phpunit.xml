@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<phpunit colors="true" stopOnFailure="false" bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="tests">
+            <directory suffix=".php">test</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <blacklist>
+            <directory suffix=".php">vendor</directory>
+        </blacklist>
+    </filter>
+    <logging>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" />
+        <log type="coverage-html" target="logs/coverage/" processUncoveredFilesFromWhitelist="true" />
+        <log type="coverage-clover" target="logs/coverage.xml" processUncoveredFilesFromWhitelist="true" />
+    </logging>
+</phpunit>
