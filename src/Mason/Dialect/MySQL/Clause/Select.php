@@ -28,27 +28,35 @@ class Select extends \Mason\Scaffold\Clause\Select
         } else {
             for ($i=0, $c=count($this->fields); $i<$c; $i++) {
                 $str.= (($i > 0) ? ',' : '');
-
-                $field = $this->fields[$i];
-                if (!($field instanceof \Mason\Alias))
-                    throw new \Mason\InvalidStateException("Invalid field parameter");
-
-                $name = $field->getName();
-
-                if ($name instanceof \Mason\Clause || $name instanceof \Mason\Statement) {
-                    $str.= '('.$name->compile().')';
-                } else if ($name instanceof \Mason\Expression) {
-                    $str.= (string)$name;
-                } else {
-                    $str.= '`'.str_replace('.','`.`',$name).'`';
-                }
-
-                if ($alias = $field->getAlias()) {
-                    $str.=' AS `'.$alias.'`';
-                }
+                $str.= $this->compileField($this->field[$i]);
             }
         }
 
         return $str;
+    }
+
+    private function compileField($field)
+    {
+        if (!($field instanceof \Mason\Alias))
+            throw new \Mason\InvalidStateException("Invalid field parameter");
+
+        $name = $field->getName();
+
+        if ($name instanceof \Mason\Clause || $name instanceof \Mason\Statement) {
+            $str.= '('.$name->compile().')';
+        } else if ($name instanceof \Mason\Expression) {
+            $str.= (string)$name;
+        } else {
+            if (false !== strpos($name, '.')) { 
+                list($tbl,$name) = explode('.', $name);
+                $str.= '`'.$tbl.'`.';
+            }
+
+            $str.= ($name == '*') ? $name : '`'.$name.'`';
+        }
+
+        if ($alias = $field->getAlias()) {
+            $str.=' AS `'.$alias.'`';
+        }
     }
 }
