@@ -28,7 +28,7 @@ class Select extends \Mason\Scaffold\Clause\Select
         } else {
             for ($i=0, $c=count($this->fields); $i<$c; $i++) {
                 $str.= (($i > 0) ? ',' : '');
-                $str.= $this->compileField($this->field[$i]);
+                $str.= $this->compileField($this->fields[$i]);
             }
         }
 
@@ -41,6 +41,7 @@ class Select extends \Mason\Scaffold\Clause\Select
             throw new \Mason\InvalidStateException("Invalid field parameter");
 
         $name = $field->getName();
+        $str = '';
 
         if ($name instanceof \Mason\Clause || $name instanceof \Mason\Statement) {
             $str.= '('.$name->compile().')';
@@ -58,5 +59,7 @@ class Select extends \Mason\Scaffold\Clause\Select
         if ($alias = $field->getAlias()) {
             $str.=' AS `'.$alias.'`';
         }
+
+        return $str;
     }
 }
