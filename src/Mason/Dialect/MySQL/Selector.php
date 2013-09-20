@@ -18,13 +18,6 @@ namespace Mason\Dialect\MySQL;
 
 class Selector extends \Mason\Scaffold\Selector
 {
-    private static $currentInstanceId = 0;
-
-    /**
-     * @var integer
-     */
-    private $instanceId;
-
     /**
      * @var \Mason\Clause\From
      */
@@ -75,9 +68,6 @@ class Selector extends \Mason\Scaffold\Selector
         Clause\OrderBy $orderBy = null,
         Clause\Limit $limit = null)
     {
-        static::$currentInstanceId++;
-        $this->instanceId = static::$currentInstanceId;
-
         $this->select = $select;
         $this->from = $from;
         $this->join = $join;
@@ -154,11 +144,6 @@ class Selector extends \Mason\Scaffold\Selector
         }
 
         return $this->limit;
-    }
-
-    public function getInstanceId()
-    {
-        return $this->instanceId;
     }
 
     public function compile()

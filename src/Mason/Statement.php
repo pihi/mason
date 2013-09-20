@@ -16,7 +16,7 @@
 
 namespace Mason;
 
-interface Statement extends Identity
+interface Statement
 {
     /**
      * Compiles current statement

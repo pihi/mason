@@ -18,19 +18,8 @@ namespace Mason\Dialect\MySQL;
 
 class Updater extends \Mason\Scaffold\Updater
 {
-    private static $currentInstanceId = 0;
-
-    private $instanceId;
-
     public function __construct()
     {
-        static::$currentInstanceId++;
-        $this->instanceId = static::$currentInstanceId;
-    }
-
-    public function getInstanceId()
-    {
-        return $this->instanceId;
     }
 
     public function compile()
